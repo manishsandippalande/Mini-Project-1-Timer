@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .main{
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(0, 0, 0);
+            flex-direction: column;
+            gap: 3vh;
+        }
+        .timer-cont{
+            background-color: rgba(240, 248, 255, 0.085);
+            padding: 4vh 3.5vh;
+            border: 2.3px solid rgb(52, 52, 52);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1vh;
+            
+        }
+        .cont-time{
+            font-size: 1.7rem;
+            color: rgb(255, 255, 0);
+            background-color: rgba(0, 0, 0, 0.801);
+            border: 1px solid rgb(255, 255, 0);
+            box-shadow: 1px 1px 10px rgb(255, 225, 0);
+            font-weight: 500;
+            width: 11vh;
+            height: 11vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .colon{
+            font-size: 1.7rem;
+            color: rgb(242, 255, 0);
+        }
+        #strtbtn, #stopbtn{
+            padding: 1.82vh 4vh;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 6px;
+            color: white;
+            background-color: rgb(106, 0, 255);
+        }
+        #stopbtn{
+            background-color: rgb(255, 0, 0);
+            display: none;
+        }
+        #strtbtn:hover{
+            background-color: rgb(174, 0, 255);
+        }
+        #resetbtn{
+            padding: 1.82vh 4vh;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 6px;
+            color: rgb(0, 0, 0);
+            background-color: rgb(255, 251, 0);
+        }
+        .btn-cont{
+            display: flex;
+            gap: 2vh;
+        }
+        .title{
+            position: absolute;
+            top: 0;
+            margin-top: 8vh;
+            color: aliceblue;
+            font-size: 3.7rem;
+            text-shadow: 0px 2px 10px rgb(225, 255, 0);
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .btn-cont button{
+            outline: 1px;
+            border: 2px solid rgb(0, 255, 174);
+        }
+    </style>
+    <title>Mini Project 1: Timer (10 days 10 project)</title>
+</head>
+<body>
+    <div class="main">
+        <div class="title">TIMER</div>
+        <div class="timer-cont">
+            <div class="cont-time" id="hour">00</div>
+            <span class="colon">:</span>
+            <div class="cont-time" id="min">00</div>
+            <span class="colon">:</span>
+            <div class="cont-time" id="sec">00</div>
+            <span class="colon">:</span>
+            <div class="cont-time" id="milsec">00</div>
+        </div>
+        <div class="btn-cont">
+            <button id="strtbtn" onclick="starttimer()">
+                START
+            </button>
+            <button id="stopbtn" onclick="stoptimer()">
+                STOP
+            </button>
+            <button id="resetbtn" onclick="resettimer()">
+                RESET
+            </button>
+        </div>
+        
+    </div>
+
+    <script>
+        var startbtn = document.getElementById("strtbtn")
+        var stopbtn = document.getElementById("stopbtn")
+        var resetbtn = document.getElementById("resetbtn")
+
+        var milsecond = document.getElementById("milsec")
+        var second = document.getElementById("sec")
+        var min = document.getElementById("min")
+        var hour = document.getElementById("hour")
+        
+        var milsectime = 0
+        var sectime = 0
+        var mintime = 0
+        var hourtime = 0
+        function secinc(){
+            milsectime += 1
+            if (milsectime == 60){
+                milsectime = 0
+                sectime += 1
+            }
+            milsecond.textContent = formatTime(milsectime)
+            if (sectime == 60){
+                sectime = 0
+                mintime += 1
+            }
+            second.textContent = formatTime(sectime)
+            if (mintime == 60){
+                mintime = 0
+                hourtime += 1
+            }
+            min.textContent = formatTime(mintime)
+            hour.textContent = formatTime(hourtime)
+        
+        }
+        var timer
+        function starttimer(){
+            timer = setInterval(secinc, 1000/60)
+            startbtn.style.display="none"
+            stopbtn.style.display="block"
+            resetbtn.style.display='none'
+        }
+        function stoptimer(){
+            clearInterval(timer)
+            startbtn.style.display="block"
+            stopbtn.style.display="none"
+            resetbtn.style.display='block'
+        }
+        function resettimer(){
+            milsectime = 0
+            sectime = 0
+            mintime = 0
+            hourtime = 0
+            milsecond.textContent = formatTime(milsectime)
+            second.textContent = formatTime(sectime)
+            min.textContent = formatTime(mintime)
+            hour.textContent = formatTime(hourtime)
+        }
+        function formatTime(value) {
+            return value < 10 ? "0" + value : String(value);
+        }
+
+    </script>
+</body>
+</html>
